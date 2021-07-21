@@ -8,10 +8,10 @@ const Ship = (inputLength) => {
 
   const isSunk = () => bodyHit.every((position) => position === true);
 
-  return {hit, isSunk}
+  return {length, hit, isSunk}
 };
 
-// export default Ship;
-module.exports = Ship;
+export default Ship;
+// module.exports = Ship;
 
 

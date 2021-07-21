@@ -1,14 +1,13 @@
-const Ship = require("./ship");
-// Kapal penjelajah panjangnya 3, kapal induk panjangnya 6
+import Ship from "./ship";
 const cruiser = Ship(3);
 const aircraftCarrier = Ship(6);
 
-test("cuiser hit in location [0] should not sink", () => {
+test("Cruiser hit in location [0] should not sink", () => {
   cruiser.hit(0);
   expect(cruiser.isSunk()).toEqual(false);
 });
 
-test("cruiser hit in location [0,1,2] should sink", () => {
+test("Cruiser hit in location [0,1,2] should sink", () => {
   cruiser.hit(0);
   cruiser.hit(1);
   cruiser.hit(2);

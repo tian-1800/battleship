@@ -6,6 +6,11 @@
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tian-1800/battleship.git"
@@ -17,6 +22,9 @@
   },
   "homepage": "https://github.com/tian-1800/battleship#readme",
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "babel-jest": "^27.0.6",
     "css-loader": "^6.2.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
