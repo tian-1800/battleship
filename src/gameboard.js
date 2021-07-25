@@ -2,10 +2,10 @@
 
 const Gameboard = () => {
   const dimension = 10;
-  const shootingBoard = Array.from(
-    Array(dimension),
-    () => new Array(dimension)
+  const shootingBoard = Array.from(Array(dimension), () =>
+    Array.from(Array(dimension).keys())
   );
+
   const shipBoard = Array.from(Array(dimension), () => new Array(dimension));
   const fleet = [];
 
@@ -25,13 +25,13 @@ const Gameboard = () => {
   };
 
   const receiveAttack = (x, y) => {
+    if (shootingBoard[x][y] === 999) return false;
+    shootingBoard[x][y] = 999;
     if (shipBoard[x][y]) {
-      shootingBoard[x][y] = true;
       const { ship, position } = shipBoard[x][y];
       ship.hit(position);
-    } else {
-      shootingBoard[x][y] = false;
     }
+    return true;
   };
 
   const isFleetSunk = () => {
@@ -41,6 +41,7 @@ const Gameboard = () => {
 
   return {
     shipBoard,
+    shootingBoard,
     deployShip,
     receiveAttack,
     isFleetSunk,

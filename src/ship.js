@@ -12,6 +12,5 @@ const Ship = (inputLength) => {
 };
 
 export default Ship;
-// module.exports = Ship;
 
 
