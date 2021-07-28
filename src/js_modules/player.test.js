@@ -9,9 +9,11 @@ const playerOne = Player(true, testBoard);
 
 testBoard.deployShip(shipOne, coordinates[0], "horizontal");
 testBoard.deployShip(shipTwo, coordinates[1], "horizontal");
-
+test("hehe", () => {
+    const x = playerOne.play(2,4);
+    expect(x).toEqual(true);
+} )
 test("hit (2,3), shooting board [2][3] should have value of 999", () => {
-    playerOne.play(2,4);
     expect(testBoard.shootingBoard[2][4]).toEqual(999);
 })
 test("hit (6,6), shooting board [2][2] should not have value of 999", () => {

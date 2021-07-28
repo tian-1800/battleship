@@ -3,10 +3,9 @@ import Gameboard from "./gameboard";
 
 const [shipOne, shipTwo] = [Ship(3), Ship(5)];
 const coordinates = [[2,3], [3,5]];
-const testBoard = Gameboard();
+const testBoard = Gameboard([shipOne, shipTwo]);
 
-testBoard.deployShip(shipOne, coordinates[0], "horizontal");
-testBoard.deployShip(shipTwo, coordinates[1], "horizontal");
+testBoard.deployFleet( coordinates, "horizontal");
 
 testBoard.receiveAttack(8,8);
 testBoard.receiveAttack(3,5);

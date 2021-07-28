@@ -1,13 +1,13 @@
 // import Ship from "./ship";
 
-const Gameboard = () => {
+const Gameboard = (fleet) => {
   const dimension = 10;
   const shootingBoard = Array.from(Array(dimension), () =>
     Array.from(Array(dimension).keys())
   );
 
   const shipBoard = Array.from(Array(dimension), () => new Array(dimension));
-  const fleet = [];
+  const gridBoard = Array.from(Array(dimension), () => new Array(dimension));
 
   const deployShip = (ship, origin, orientation) => {
     const { length } = ship;
@@ -21,8 +21,15 @@ const Gameboard = () => {
         shipBoard[x][i] = { ship, position: i - y };
       }
     }
-    fleet.push(ship);
+    // fleet.push(ship);
   };
+
+  const deployFleet = (coordinates, orientation) => {
+    fleet.forEach(ship => {
+      const index = fleet.indexOf(ship);
+      deployShip(ship, coordinates[index], orientation);
+    })
+  }
 
   const receiveAttack = (x, y) => {
     if (shootingBoard[x][y] === 999) return false;
@@ -42,7 +49,9 @@ const Gameboard = () => {
   return {
     shipBoard,
     shootingBoard,
+    gridBoard,
     deployShip,
+    deployFleet,
     receiveAttack,
     isFleetSunk,
   };
