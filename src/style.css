@@ -30,3 +30,11 @@ div.hit {
 div.empty-hit {
     background-color: #38f;
 }
+
+.button-container {
+    text-align: center;
+}
+
+.button-container.hidden {
+    display: none;
+}

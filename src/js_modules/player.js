@@ -1,16 +1,29 @@
 const Player = (isHumanArg, opponentBoard) => {
-  let turn;
-    const isHuman = isHumanArg;
+  const state = { turn: false };
+  const isHuman = isHumanArg;
+
+  const getTurn = () => state.turn;
+  const setTurn = (val) => {
+    state.turn = val;
+  };
+  const toggleTurn = () => {
+    const newState = !state.turn;
+    state.turn = newState;
+  };
+
   const play = (x, y) => {
-    const validHit = opponentBoard.receiveAttack(x, y);
-    if (validHit) return true;
-    return false;
+    const isValidHit = opponentBoard.receiveAttack(x, y);
+    return isValidHit;
   };
 
   const computerPlay = () => {
     const random = Math.floor(Math.random() * 10);
-    const row = opponentBoard.shootingBoard[random];
-    const rowFiltered = row.filter((el) => el !== 999);
+    const row = [...opponentBoard.shootingBoard[random].keys()];
+    const rowFiltered = row.filter((el) => {
+      const index = row.indexOf(el);
+      const shootingSquare = [...opponentBoard.shootingBoard[random]][index];
+      return shootingSquare !== true;
+    });
     const eligibleSquaresCount = rowFiltered.length;
     const choice = Math.floor(Math.random() * eligibleSquaresCount);
     const index = rowFiltered[choice];
@@ -19,7 +32,10 @@ const Player = (isHumanArg, opponentBoard) => {
   };
 
   return {
-    turn,
+    opponentBoard,
+    getTurn,
+    setTurn,
+    toggleTurn,
     isHuman,
     play,
     computerPlay,
