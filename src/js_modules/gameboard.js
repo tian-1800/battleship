@@ -8,6 +8,7 @@ Ship Board = to record the deployed ship coordinates
 // import Ship from "./ship";
 
 const Gameboard = (fleet) => {
+  // const fleet = [];
   const dimension = 10;
   let shootingBoard = Array.from(Array(dimension), () =>
     new Array(dimension).fill(false)
@@ -17,18 +18,20 @@ const Gameboard = (fleet) => {
 
   // Reset board function, assigned empty board
   const reset = () => {
-    shootingBoard = Array.from(Array(dimension), () => new Array(dimension));
+    shootingBoard = Array.from(Array(dimension), () =>
+      new Array(dimension).fill(false)
+    );
     shipBoard = Array.from(Array(dimension), () => new Array(dimension));
   };
 
   const deployShip = (ship, origin, orientation) => {
     const { length } = ship;
     const [x, y] = origin;
-    if (orientation === "horizontal") {
+    if (orientation === "vertical") {
       for (let i = x; i < x + length; i += 1) {
         shipBoard[i][y] = { ship, position: i - x };
       }
-    } else if (orientation === "vertical") {
+    } else if (orientation === "horizontal") {
       for (let i = y; i < y + length; i += 1) {
         shipBoard[x][i] = { ship, position: i - y };
       }

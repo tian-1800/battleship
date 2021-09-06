@@ -12,7 +12,7 @@ const gameHelper = () => {
     return false;
   };
 
-  const executeWinner = (winner) => {
+  const displayWinner = (winner) => {
     document.querySelector(".button-container").classList.remove("hidden");
     document.querySelector(".btn-play").textContent = "Play Again";
     document.querySelector(
@@ -20,24 +20,39 @@ const gameHelper = () => {
     ).textContent = `${winner.title} Win`;
   };
 
-  return { checkWinner, executeWinner };
+  const changeTurn = (playerOne, playerTwo) => {
+    const winner = checkWinner(playerOne, playerTwo);
+    // console.log(winner.title);
+    if (winner) {
+      displayWinner(winner);
+    } else {
+      playerOne.toggleTurn();
+      playerTwo.toggleTurn();
+      if (playerTwo.getTurn()) {
+        playerTwo.computerPlay();
+        playerOne.toggleTurn();
+        playerTwo.toggleTurn();
+      }
+    }
+  };
+
+  return { checkWinner, displayWinner, changeTurn };
 };
 
 const gameLoop = (() => {
-  const fleet = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
   const coordinatesOne = [
-    [1, 3],
+    [3, 0],
     [2, 5],
     [4, 3],
     [5, 6],
-    [2, 8],
+    [3, 8],
   ];
   const coordinatesTwo = [
     [1, 3],
     [2, 5],
     [4, 3],
     [5, 6],
-    [2, 8],
+    [3, 2],
   ];
 
   let boardOne;
@@ -45,35 +60,29 @@ const gameLoop = (() => {
   let player;
   let computer;
 
-  const changeTurn = () => {
-    const { checkWinner, executeWinner } = gameHelper();
-    const winner = checkWinner(player, computer);
-    if (winner) {
-      executeWinner(winner);
-    } else {
-      player.toggleTurn();
-      computer.toggleTurn();
-      if (computer.getTurn()) {
-        computer.computerPlay();
-        player.toggleTurn();
-        computer.toggleTurn();
-      }
-    }
-  };
-
   const init = () => {
-    [boardOne, boardTwo] = [Gameboard(fleet), Gameboard(fleet)];
+    const fleetOne = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
+    const fleetTwo = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
+    boardOne = Gameboard(fleetOne);
+    boardTwo = Gameboard(fleetTwo);
     [player, computer] = [Player(true, boardTwo), Player(false, boardOne)];
     player.title = "You";
     computer.title = "Computer";
 
-    boardOne.deployFleet(coordinatesOne, "horizontal");
+    boardOne.deployFleet(coordinatesOne, "vertical");
     boardTwo.deployFleet(coordinatesTwo, "horizontal");
     const [gridOne, gridTwo] =
       document.getElementsByClassName("grid-container");
+    // const gridOne = document.getElementById("one");
+    // const gridTwo = document.getElementById("two");
 
-    generateGrid10(gridOne, boardOne, computer, changeTurn);
-    generateGrid10(gridTwo, boardTwo, player, changeTurn);
+    const { changeTurn } = gameHelper();
+    generateGrid10(gridOne, boardOne, computer, () => {
+      changeTurn(player, computer);
+    });
+    generateGrid10(gridTwo, boardTwo, player, () => {
+      changeTurn(player, computer);
+    });
 
     player.setTurn(true);
   };
