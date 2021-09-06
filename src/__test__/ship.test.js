@@ -1,4 +1,4 @@
-import Ship from "./ship";
+import Ship from "../js_modules/ship";
 
 const cruiser = Ship(3);
 const aircraftCarrier = Ship(6);

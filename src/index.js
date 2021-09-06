@@ -20,6 +20,10 @@ const gameHelper = () => {
     ).textContent = `${winner.title} Win`;
   };
 
+  const resetDisplayWinner = () => {
+    document.querySelector(".button-container").classList.add("hidden");
+  };
+
   const changeTurn = (playerOne, playerTwo) => {
     const winner = checkWinner(playerOne, playerTwo);
     // console.log(winner.title);
@@ -30,13 +34,14 @@ const gameHelper = () => {
       playerTwo.toggleTurn();
       if (playerTwo.getTurn()) {
         playerTwo.computerPlay();
-        playerOne.toggleTurn();
-        playerTwo.toggleTurn();
+        if (winner) {
+          displayWinner(winner);
+        }
       }
     }
   };
 
-  return { checkWinner, displayWinner, changeTurn };
+  return { checkWinner, displayWinner, changeTurn, resetDisplayWinner };
 };
 
 const gameLoop = (() => {
@@ -73,17 +78,15 @@ const gameLoop = (() => {
     boardTwo.deployFleet(coordinatesTwo, "horizontal");
     const [gridOne, gridTwo] =
       document.getElementsByClassName("grid-container");
-    // const gridOne = document.getElementById("one");
-    // const gridTwo = document.getElementById("two");
 
-    const { changeTurn } = gameHelper();
+    const { changeTurn, resetDisplayWinner } = gameHelper();
     generateGrid10(gridOne, boardOne, computer, () => {
       changeTurn(player, computer);
     });
     generateGrid10(gridTwo, boardTwo, player, () => {
       changeTurn(player, computer);
     });
-
+    resetDisplayWinner();
     player.setTurn(true);
   };
 

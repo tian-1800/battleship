@@ -28,7 +28,7 @@ const Player = (isHumanArg, opponentBoard) => {
       });
       eligibleSquaresCount = rowFiltered.length;
       const choice = Math.floor(Math.random() * eligibleSquaresCount);
-      console.log(rowFiltered);
+      // console.log(rowFiltered);
       const index = rowFiltered[choice];
       return { random, index };
     };
@@ -40,10 +40,10 @@ const Player = (isHumanArg, opponentBoard) => {
       index = coordinate.index;
       random = coordinate.random;
       limit += 1;
-      console.log("while was called, row: ", random, ", index: ", index);
+      // console.log("while was called, row: ", random, ", index: ", index);
     }
-    console.log(random, index, Number.isInteger(index + 1));
-    play(random, index);
+    // console.log(random, index, Number.isInteger(index + 1));
+    // play(random, index);
     opponentBoard.gridBoard[random][index].click();
     // index = 0;
   };

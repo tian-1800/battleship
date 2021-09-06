@@ -1,5 +1,5 @@
-import Ship from "./ship";
-import Gameboard from "./gameboard";
+import Ship from "../js_modules/ship";
+import Gameboard from "../js_modules/gameboard";
 
 const [shipOne, shipTwo, shipThree, shipFour] = [
   Ship(3),

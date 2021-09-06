@@ -1,16 +1,17 @@
 const specialClickHandler = (element, player, x, y, gameBoard, changeTurn) => {
-  element.addEventListener("click", () => {
-    console.log(player.title);
-    if (player.getTurn()) {
-      const valid = player.play(x, y);
-      // console.log(gameBoard.shootingBoard[x][y]);
-      if (valid) changeTurn();
-      if (gameBoard.shipBoard[x][y]) {
-        element.classList.remove("black");
-        element.classList.add("hit");
-      } else element.classList.add("empty-hit");
-    }
-  });
+  ["click", "mouseenter"].forEach((event) =>
+    element.addEventListener(event, () => {
+      const winnerExist = gameBoard.isFleetSunk();
+      if (player.getTurn() && !winnerExist) {
+        const valid = player.play(x, y);
+        if (valid) changeTurn();
+        if (gameBoard.shipBoard[x][y]) {
+          element.classList.remove("black");
+          element.classList.add("hit");
+        } else element.classList.add("empty-hit");
+      }
+    })
+  );
 };
 
 const generateGrid10 = (parent, gameBoard, player, changeTurn) => {

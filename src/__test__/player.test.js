@@ -1,6 +1,6 @@
-import Ship from "./ship";
-import Gameboard from "./gameboard";
-import Player from "./player";
+import Ship from "../js_modules/ship";
+import Gameboard from "../js_modules/gameboard";
+import Player from "../js_modules/player";
 
 const [shipOne, shipTwo, shipThree, shipFour] = [
   Ship(3),
