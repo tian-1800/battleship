@@ -1,40 +1,59 @@
 body {
-    background-color: #ea4;
-    
+  background-color: #ea4;
 }
 
 .flex-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .flex-container > div {
-    margin: 2em 3em;
+  margin: 2em 3em;
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(10,20px);
-    grid-template-rows: repeat(10,20px);
+  display: grid;
+  grid-template-columns: repeat(10, 20px);
+  grid-template-rows: repeat(10, 20px);
 }
 
 .grid-container > div {
-    border: solid 1px;
+  border: solid 1px;
+}
+
+.preparation-board {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.user-board {
+  padding: 10px 50px;
+}
+
+.dragged-ship {
+  display: flex;
+}
+.dragged-ship > div {
+  width: 15px;
+  height: 15px;
+  margin: 10px 2px;
+  background-color: #000;
 }
 
 div.black {
-    background-color: #000;
+  background-color: #000;
 }
 div.hit {
-    background-color: #f48;
+  background-color: #f48;
 }
 div.empty-hit {
-    background-color: #38f;
+  background-color: #38f;
 }
 
 .button-container {
-    text-align: center;
+  text-align: center;
 }
 
 .button-container.hidden {
-    display: none;
+  display: none;
 }

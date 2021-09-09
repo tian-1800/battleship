@@ -5,10 +5,8 @@ Shooting Board = to record the shooting coordinates, it's not legal to shoot the
 Ship Board = to record the deployed ship coordinates
 */
 
-// import Ship from "./ship";
-
-const Gameboard = (fleet) => {
-  // const fleet = [];
+const Gameboard = () => {
+  const fleet = [];
   const dimension = 10;
   let shootingBoard = Array.from(Array(dimension), () =>
     new Array(dimension).fill(false)
@@ -36,14 +34,15 @@ const Gameboard = (fleet) => {
         shipBoard[x][i] = { ship, position: i - y };
       }
     }
-    // fleet.push(ship);
+    fleet.push(ship);
   };
 
-  const deployFleet = (coordinates, orientation) => {
-    fleet.forEach((ship) => {
-      const index = fleet.indexOf(ship);
+  const deployFleet = (inputFleet, coordinates, orientation) => {
+    inputFleet.forEach((ship) => {
+      const index = inputFleet.indexOf(ship);
       deployShip(ship, coordinates[index], orientation);
     });
+    return false;
   };
 
   // Board-receive-attack validator. Mark coordinate as true and then return true if shooting coordinate is valid

@@ -1,5 +1,5 @@
-import Ship from "../js_modules/ship";
-import Gameboard from "../js_modules/gameboard";
+import Ship from "../js_modules/Ship";
+import Gameboard from "../js_modules/Gameboard";
 
 const [shipOne, shipTwo, shipThree, shipFour] = [
   Ship(3),
@@ -11,11 +11,11 @@ const coordinates = [
   [2, 3],
   [3, 5],
 ];
-const testBoard = Gameboard([shipOne, shipTwo]);
-const moreBoard = Gameboard([shipThree, shipFour]);
+const testBoard = Gameboard();
+const moreBoard = Gameboard();
 
-testBoard.deployFleet(coordinates, "vertical");
-moreBoard.deployFleet(coordinates, "horizontal");
+testBoard.deployFleet([shipOne, shipTwo], coordinates, "vertical");
+moreBoard.deployFleet([shipThree, shipFour], coordinates, "horizontal");
 
 testBoard.receiveAttack(8, 8);
 testBoard.receiveAttack(3, 5);

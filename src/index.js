@@ -1,9 +1,11 @@
 import "./style.css";
 
-import Player from "./js_modules/player";
-import Gameboard from "./js_modules/gameboard";
-import Ship from "./js_modules/ship";
+import Player from "./js_modules/Player";
+import Gameboard from "./js_modules/Gameboard";
+// import Ship from "./js_modules/Ship";
+import FleetTemplate from "./js_modules/FleetTemplate";
 import { generateGrid10 } from "./js_modules/dom_module";
+import PlayerDeployment from "./js_modules/PlayerDeployment";
 
 const gameHelper = () => {
   const checkWinner = (playerOne, playerTwo) => {
@@ -45,13 +47,13 @@ const gameHelper = () => {
 };
 
 const gameLoop = (() => {
-  const coordinatesOne = [
-    [3, 0],
-    [2, 5],
-    [4, 3],
-    [5, 6],
-    [3, 8],
-  ];
+  // const coordinatesOne = [
+  //   [3, 0],
+  //   [2, 5],
+  //   [4, 3],
+  //   [5, 6],
+  //   [3, 8],
+  // ];
   const coordinatesTwo = [
     [1, 3],
     [2, 5],
@@ -60,22 +62,23 @@ const gameLoop = (() => {
     [3, 2],
   ];
 
-  let boardOne;
-  let boardTwo;
+  // let boardOne;
+  // let boardTwo;
   let player;
   let computer;
 
   const init = () => {
-    const fleetOne = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
-    const fleetTwo = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
-    boardOne = Gameboard(fleetOne);
-    boardTwo = Gameboard(fleetTwo);
+    console.log(FleetTemplate());
+    const fleetOne = FleetTemplate();
+    const fleetTwo = FleetTemplate();
+    const boardOne = Gameboard();
+    const boardTwo = Gameboard();
     [player, computer] = [Player(true, boardTwo), Player(false, boardOne)];
     player.title = "You";
     computer.title = "Computer";
 
-    boardOne.deployFleet(coordinatesOne, "vertical");
-    boardTwo.deployFleet(coordinatesTwo, "horizontal");
+    // boardOne.deployFleet(coordinatesOne, "vertical");
+    boardTwo.deployFleet(fleetTwo, coordinatesTwo, "horizontal");
     const [gridOne, gridTwo] =
       document.getElementsByClassName("grid-container");
 
@@ -86,6 +89,8 @@ const gameLoop = (() => {
     generateGrid10(gridTwo, boardTwo, player, () => {
       changeTurn(player, computer);
     });
+
+    PlayerDeployment(fleetOne, fleetTwo);
     resetDisplayWinner();
     player.setTurn(true);
   };
