@@ -1,10 +1,9 @@
 import Ship from "./Ship";
 // import FleetTemplate from "./js_modules/FleetTemplate";
 
-const specialClickHandler = (element, player, x, y, gameBoard, changeTurn) => {
+const dropHandler = (element, gameBoard) => {
   element.addEventListener("drop", (e) => {
     e.preventDefault();
-    console.log("drop");
     e.target.style.background = "";
     if (e.target.className === "drop-zone") {
       const { id, index } = JSON.parse(e.dataTransfer.getData("text/plain"));
@@ -26,12 +25,17 @@ const specialClickHandler = (element, player, x, y, gameBoard, changeTurn) => {
   element.addEventListener("dragover", (e) => {
     e.preventDefault();
   });
+};
 
+const specialClickHandler = (element, player, x, y, changeTurn) => {
+  const gameBoard = player.opponentBoard;
   ["click", "mouseenter"].forEach((event) =>
     element.addEventListener(event, () => {
+      console.log(element.dataset.id);
       const winnerExist = gameBoard.isFleetSunk();
       if (player.getTurn() && !winnerExist) {
         const valid = player.play(x, y);
+        console.log(valid, x, y);
         if (valid) changeTurn();
         if (gameBoard.shipBoard[x][y]) {
           element.classList.remove("black");
@@ -42,9 +46,9 @@ const specialClickHandler = (element, player, x, y, gameBoard, changeTurn) => {
   );
 };
 
-const generateGrid10 = (parent, gameBoard, player, changeTurn) => {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
+const generateGrid10 = (container, gameBoard, player) => {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
   }
   for (let i = 0; i < 10; i += 1) {
     for (let j = 0; j < 10; j += 1) {
@@ -54,12 +58,20 @@ const generateGrid10 = (parent, gameBoard, player, changeTurn) => {
         // this means the board belongs to human and is computer's target
         gridElement.classList.add("drop-zone");
       }
-      specialClickHandler(gridElement, player, i, j, gameBoard, changeTurn);
-      parent.appendChild(gridElement);
+      dropHandler(gridElement, gameBoard);
+      container.appendChild(gridElement);
       const { gridBoard } = gameBoard;
       gridBoard[i][j] = gridElement;
     }
   }
+};
+
+const boardAddClickDOM = (container, player, changeTurn) => {
+  container.childNodes.forEach((node) => {
+    const dataset = node.dataset.id;
+    const [x, y] = [parseInt(dataset[0], 10), parseInt(dataset[1], 10)];
+    specialClickHandler(node, player, x, y, changeTurn);
+  });
 };
 
 const dragListenerInit = () => {
@@ -83,7 +95,6 @@ const dragListenerInit = () => {
   document.addEventListener(
     "dragend",
     (e) => {
-      console.log("drag end");
       e.target.style.opacity = "";
     },
     false
@@ -109,26 +120,10 @@ const dragListenerInit = () => {
     },
     false
   );
-
-  // document.addEventListener(
-  //   "drop",
-  //   (e) => {
-  //     // prevent default action (open as link for some elements)
-  //     e.preventDefault();
-  //     console.log("drop");
-  //     // move dragged elem to the selected drop target
-  //     // if (e.target.className === "dropzone") {
-  //     e.target.style.background = "";
-  //     // dragged.parentNode.removeChild( dragged );
-  //     // e.target.appendChild( dragged );
-  //     // }
-  //   },
-  //   false
-  // );
 };
 
 const addButtonHandler = (element, init) => {
   element.addEventListener("click", init);
 };
 
-export { generateGrid10, addButtonHandler, dragListenerInit };
+export { generateGrid10, boardAddClickDOM, addButtonHandler, dragListenerInit };

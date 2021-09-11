@@ -26,16 +26,25 @@ const deploymentPreparation = (fleet, isHuman) => {
 const PlayerDeployment = (fleetOne, fleetTwo) => {
   const preparationBoard = document.createElement("section");
   preparationBoard.className = "preparation-board";
-  // preparationBoard.textContent = "Preparation Board";
 
   preparationBoard.appendChild(deploymentPreparation(fleetOne, true));
   preparationBoard.appendChild(deploymentPreparation(fleetTwo));
 
   const [app] = document.getElementsByClassName("app");
   app.appendChild(preparationBoard);
-  // app.appendChild("preparationBoard");
 
   dragListenerInit();
 };
 
+const removePlayerDeployment = () => {
+  const deploymentBoards = [
+    ...document.getElementsByClassName("preparation-board"),
+  ];
+  const [app] = document.getElementsByClassName("app");
+  deploymentBoards.forEach((board) => {
+    app.removeChild(board);
+  });
+};
+
 export default PlayerDeployment;
+export { removePlayerDeployment };

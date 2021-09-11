@@ -4,8 +4,10 @@ import Player from "./js_modules/Player";
 import Gameboard from "./js_modules/Gameboard";
 // import Ship from "./js_modules/Ship";
 import FleetTemplate from "./js_modules/FleetTemplate";
-import { generateGrid10 } from "./js_modules/dom_module";
-import PlayerDeployment from "./js_modules/PlayerDeployment";
+import { generateGrid10, boardAddClickDOM } from "./js_modules/dom_module";
+import PlayerDeployment, {
+  removePlayerDeployment,
+} from "./js_modules/PlayerDeployment";
 
 const gameHelper = () => {
   const checkWinner = (playerOne, playerTwo) => {
@@ -16,7 +18,7 @@ const gameHelper = () => {
 
   const displayWinner = (winner) => {
     document.querySelector(".button-container").classList.remove("hidden");
-    document.querySelector(".btn-play").textContent = "Play Again";
+    document.getElementById("btn-play").textContent = "Play Again";
     document.querySelector(
       ".winner-announcement"
     ).textContent = `${winner.title} Win`;
@@ -28,7 +30,6 @@ const gameHelper = () => {
 
   const changeTurn = (playerOne, playerTwo) => {
     const winner = checkWinner(playerOne, playerTwo);
-    // console.log(winner.title);
     if (winner) {
       displayWinner(winner);
     } else {
@@ -47,13 +48,7 @@ const gameHelper = () => {
 };
 
 const gameLoop = (() => {
-  // const coordinatesOne = [
-  //   [3, 0],
-  //   [2, 5],
-  //   [4, 3],
-  //   [5, 6],
-  //   [3, 8],
-  // ];
+  const state = { gameState: "" };
   const coordinatesTwo = [
     [1, 3],
     [2, 5],
@@ -62,13 +57,12 @@ const gameLoop = (() => {
     [3, 2],
   ];
 
-  // let boardOne;
-  // let boardTwo;
   let player;
   let computer;
+  const [gridOne, gridTwo] = document.getElementsByClassName("grid-container");
+  const { changeTurn, resetDisplayWinner } = gameHelper();
 
-  const init = () => {
-    console.log(FleetTemplate());
+  const deploy = () => {
     const fleetOne = FleetTemplate();
     const fleetTwo = FleetTemplate();
     const boardOne = Gameboard();
@@ -79,23 +73,46 @@ const gameLoop = (() => {
 
     // boardOne.deployFleet(coordinatesOne, "vertical");
     boardTwo.deployFleet(fleetTwo, coordinatesTwo, "horizontal");
-    const [gridOne, gridTwo] =
-      document.getElementsByClassName("grid-container");
 
-    const { changeTurn, resetDisplayWinner } = gameHelper();
-    generateGrid10(gridOne, boardOne, computer, () => {
-      changeTurn(player, computer);
-    });
+    generateGrid10(gridOne, boardOne, computer);
     generateGrid10(gridTwo, boardTwo, player, () => {
       changeTurn(player, computer);
     });
 
+    player.setTurn(false);
+    computer.setTurn(false);
     PlayerDeployment(fleetOne, fleetTwo);
-    resetDisplayWinner();
-    player.setTurn(true);
   };
 
-  return { init };
+  const play = () => {
+    player.setTurn(true);
+    resetDisplayWinner();
+    removePlayerDeployment();
+    boardAddClickDOM(gridOne, computer, () => {
+      changeTurn(player, computer);
+    });
+    boardAddClickDOM(gridTwo, player, () => {
+      changeTurn(player, computer);
+    });
+  };
+
+  const gameStart = () => {
+    const button = document.getElementById("btn-play");
+    button.textContent = "Start deployment";
+    button.addEventListener("click", () => {
+      if (state.gameState === "deployment") {
+        state.gameState = "playing";
+        button.textContent = "Play Again";
+        play();
+      } else {
+        state.gameState = "deployment";
+        button.textContent = "Start playing";
+        deploy();
+      }
+    });
+  };
+
+  return { gameStart };
 })();
 
-document.querySelector(".btn-play").addEventListener("click", gameLoop.init);
+gameLoop.gameStart();
