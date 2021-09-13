@@ -1,6 +1,17 @@
-const Player = (isHumanArg, opponentBoard) => {
+const Player = (isHumanArg, board) => {
   const state = { turn: false };
   const isHuman = isHumanArg;
+  const ownBoard = board;
+  const getOwnBoard = () => ownBoard;
+
+  let opponent;
+  let opponentBoard;
+  const setOpponent = (arg) => {
+    opponent = arg;
+    opponentBoard = arg.getOwnBoard();
+  };
+  const getOpponent = () => opponent;
+  // const opponentBoard = opponent.ownBoard;
 
   const getTurn = () => state.turn;
   const setTurn = (val) => {
@@ -35,7 +46,7 @@ const Player = (isHumanArg, opponentBoard) => {
     let random;
     let index;
     let limit = 0;
-    while (!Number.isInteger(index) && limit < 10) {
+    while (!Number.isInteger(index) && limit < 100) {
       const coordinate = randomHit();
       index = coordinate.index;
       random = coordinate.random;
@@ -49,7 +60,9 @@ const Player = (isHumanArg, opponentBoard) => {
   };
 
   return {
-    opponentBoard,
+    getOwnBoard,
+    setOpponent,
+    getOpponent,
     getTurn,
     setTurn,
     toggleTurn,

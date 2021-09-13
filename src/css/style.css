@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+}
+
+body {
+  background-color: #f62;
+  color: #eee;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+}
+
+.main-frame {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(12, 8.3%);
+  grid-template-rows: repeat(10, 10%);
+  gap: 10px;
+}
+.main-frame > .player-container.one {
+  grid-column: 2 / span 2;
+  grid-row: 2 / span 5;
+}
+.main-frame > .player-container.two {
+  grid-column: 5 / span 2;
+  grid-row: 2 / span 5;
+}
+.main-frame > .button-container {
+  grid-column: 2 / span 5;
+  grid-row: 7 / span 1;
+}
+.main-frame > .rules-container {
+  grid-column: 9 / span 3;
+  grid-row: 2 / span 8;
+}
+.main-frame > .preparation-board {
+  grid-column: 2 / span 3;
+  grid-row: 9 / span 2;
+}
+
+.game-board > div {
+  border: solid 1px;
+  background-color: #ddd;
+}
+
+.preparation-board {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.user-board {
+  box-sizing: border-box;
+  width: 300px;
+  height: 200px;
+  padding: 10px 50px;
+}
+
+.dragged-ship {
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.dragged-ship > div {
+  width: 15px;
+  height: 15px;
+  margin: 10px 2px;
+  background-color: #000;
+}
+
+div.black {
+  background-color: #000;
+}
+
+div.hit {
+  background-color: #900;
+}
+
+div.empty-hit {
+  background-color: #6ae;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.button-container.hidden {
+  display: none;
+} /*# sourceMappingURL=style.css.map */

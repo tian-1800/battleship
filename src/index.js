@@ -1,18 +1,19 @@
-import "./style.css";
+import "./css/style.css";
 
 import Player from "./js_modules/Player";
 import Gameboard from "./js_modules/Gameboard";
 // import Ship from "./js_modules/Ship";
-import FleetTemplate from "./js_modules/FleetTemplate";
-import { generateGrid10, boardAddClickDOM } from "./js_modules/dom_module";
-import PlayerDeployment, {
-  removePlayerDeployment,
-} from "./js_modules/PlayerDeployment";
+// import FleetTemplate from "./js_modules/FleetTemplate";
+// import { generateGrid10, boardAddClickDOM } from "./js_modules/dom_module";
+import PlayerContainer from "./components/PlayerContainer";
+// import PlayerDeployment, {
+//   removePlayerDeployment,
+// } from "./js_modules/PlayerDeployment";
 
 const gameHelper = () => {
   const checkWinner = (playerOne, playerTwo) => {
-    if (playerOne.opponentBoard.isFleetSunk()) return playerOne;
-    if (playerTwo.opponentBoard.isFleetSunk()) return playerTwo;
+    if (playerOne.getOwnBoard().isFleetSunk()) return playerTwo;
+    if (playerTwo.getOwnBoard().isFleetSunk()) return playerOne;
     return false;
   };
 
@@ -21,7 +22,7 @@ const gameHelper = () => {
     document.getElementById("btn-play").textContent = "Play Again";
     document.querySelector(
       ".winner-announcement"
-    ).textContent = `${winner.title} Win`;
+    ).textContent = `${winner.name} Win`;
   };
 
   const resetDisplayWinner = () => {
@@ -48,52 +49,52 @@ const gameHelper = () => {
 };
 
 const gameLoop = (() => {
-  const state = { gameState: "" };
-  const coordinatesTwo = [
-    [1, 3],
-    [2, 5],
-    [4, 3],
-    [5, 6],
-    [3, 2],
-  ];
+  const BOARD_DIMENSION = 10;
 
-  let player;
-  let computer;
-  const [gridOne, gridTwo] = document.getElementsByClassName("grid-container");
+  const state = { gameState: "" };
+  let playerOne;
+  let playerTwo;
+
+  const [mainFrame] = document.getElementsByClassName("main-frame");
   const { changeTurn, resetDisplayWinner } = gameHelper();
 
   const deploy = () => {
-    const fleetOne = FleetTemplate();
-    const fleetTwo = FleetTemplate();
-    const boardOne = Gameboard();
-    const boardTwo = Gameboard();
-    [player, computer] = [Player(true, boardTwo), Player(false, boardOne)];
-    player.title = "You";
-    computer.title = "Computer";
+    // reset player-container
+    const existingPlayerContainer =
+      document.getElementsByClassName("player-container");
+    while (existingPlayerContainer.length > 0)
+      mainFrame.removeChild(existingPlayerContainer[0]);
+    console.log(document.getElementsByClassName("player-container").length);
 
-    // boardOne.deployFleet(coordinatesOne, "vertical");
-    boardTwo.deployFleet(fleetTwo, coordinatesTwo, "horizontal");
+    const boardOne = Gameboard(BOARD_DIMENSION);
+    const boardTwo = Gameboard(BOARD_DIMENSION);
+    [playerOne, playerTwo] = [Player(true, boardOne), Player(false, boardTwo)];
+    playerOne.name = "You";
+    playerOne.setOpponent(playerTwo);
+    playerTwo.name = "Computer";
+    playerTwo.setOpponent(playerOne);
 
-    generateGrid10(gridOne, boardOne, computer);
-    generateGrid10(gridTwo, boardTwo, player, () => {
-      changeTurn(player, computer);
-    });
-
-    player.setTurn(false);
-    computer.setTurn(false);
-    PlayerDeployment(fleetOne, fleetTwo);
+    const containerOne = PlayerContainer(
+      playerOne,
+      "player-container one",
+      () => {
+        changeTurn(playerOne, playerTwo);
+      }
+    );
+    const containerTwo = PlayerContainer(
+      playerTwo,
+      "player-container two",
+      () => {
+        changeTurn(playerOne, playerTwo);
+      }
+    );
+    mainFrame.append(containerOne, containerTwo);
   };
 
   const play = () => {
-    player.setTurn(true);
+    playerOne.setTurn(true);
     resetDisplayWinner();
-    removePlayerDeployment();
-    boardAddClickDOM(gridOne, computer, () => {
-      changeTurn(player, computer);
-    });
-    boardAddClickDOM(gridTwo, player, () => {
-      changeTurn(player, computer);
-    });
+    // removePlayerDeployment();
   };
 
   const gameStart = () => {
@@ -101,12 +102,15 @@ const gameLoop = (() => {
     button.textContent = "Start deployment";
     button.addEventListener("click", () => {
       if (state.gameState === "deployment") {
+        console.log("playing");
         state.gameState = "playing";
         button.textContent = "Play Again";
         play();
       } else {
         state.gameState = "deployment";
         button.textContent = "Start playing";
+        button.disabled = "true";
+        document.querySelector(".winner-announcement").textContent = "";
         deploy();
       }
     });

@@ -8,22 +8,22 @@
     <title>Battleship</title>
   </head>
   <body>
-    <header></header>
+    <header><h1>Battleship</h1></header>
     <main>
       <div class="app">
-        <div class="flex-container">
-          <div class="player">
-            <h3>Your Board</h3>
-            <div class="grid-container" id="one"></div>
+        <div class="main-frame">
+          <!-- Button -->
+          <div class="button-container">
+            <h3 class="winner-announcement"></h3>
+            <button type="button" id="btn-play">Play</button>
           </div>
-          <div class="computer">
-            <h3>Computer's Board</h3>
-            <div class="grid-container" id="two"></div>
+
+          <!-- Rules -->
+          <div class="rules-container">
+            <h2>How To Play</h2>
+            <p>Deploy your ship-bricks into board</p>
+            <p>Start the game</p>
           </div>
-        </div>
-        <div class="button-container">
-          <h3 class="winner-announcement"></h3>
-          <button type="button" id="btn-play">Play</button>
         </div>
       </div>
     </main>

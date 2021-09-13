@@ -11,8 +11,8 @@ const coordinates = [
   [2, 3],
   [3, 5],
 ];
-const testBoard = Gameboard();
-const moreBoard = Gameboard();
+const testBoard = Gameboard(10);
+const moreBoard = Gameboard(10);
 
 testBoard.deployFleet([shipOne, shipTwo], coordinates, "vertical");
 moreBoard.deployFleet([shipThree, shipFour], coordinates, "horizontal");

@@ -12,14 +12,15 @@ const coordinates = [
   [3, 5],
   [2, 3],
 ];
-const BoardOne = Gameboard([shipOne, shipTwo]);
-const BoardTwo = Gameboard([shipThree, shipFour]);
-const playerOne = Player(true, BoardTwo);
-const playerTwo = Player(true, BoardOne);
+const BoardOne = Gameboard(10);
+const BoardTwo = Gameboard(10);
+const playerOne = Player(true, BoardOne);
+const playerTwo = Player(true, BoardTwo);
+playerOne.setOpponent(playerTwo);
+playerTwo.setOpponent(playerOne);
 
-BoardOne.deployFleet(coordinates, "vertical");
-
-BoardTwo.deployFleet(coordinates, "vertical");
+BoardOne.deployFleet([shipOne, shipTwo], coordinates, "vertical");
+BoardTwo.deployFleet([shipThree, shipFour], coordinates, "vertical");
 
 test("hit boardOne by playerTwo(2,3), shooting board-1 [2][3] should have value of true", () => {
   playerTwo.play(2, 3);
@@ -44,7 +45,7 @@ test("toggle turn", () => {
   expect(playerOne.getTurn()).toEqual(false);
 });
 
-test("hitting all ship on board one, player two should be losing", () => {
+test("hitting all ship on board two by player one, player two should be losing", () => {
   playerOne.play(3, 5);
   playerOne.play(4, 5);
   playerOne.play(2, 3);
@@ -52,5 +53,6 @@ test("hitting all ship on board one, player two should be losing", () => {
   playerOne.play(4, 3);
   expect(shipThree.isSunk()).toEqual(true);
   expect(shipFour.isSunk()).toEqual(true);
-  expect(playerTwo.opponentBoard.isFleetSunk()).toEqual(true);
+  expect(playerOne.getOwnBoard().isFleetSunk()).toEqual(false);
+  expect(playerTwo.getOwnBoard().isFleetSunk()).toEqual(true);
 });
