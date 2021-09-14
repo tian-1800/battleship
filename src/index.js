@@ -91,7 +91,6 @@ const gameLoop = (() => {
       },
       getHover
     );
-    console.log("deploy");
     mainFrame.append(containerOne, containerTwo);
   };
 

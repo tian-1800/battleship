@@ -94,6 +94,7 @@ const PlacementBoard = (fleet, player) => {
     fleet.forEach((ship) => renderShip(ship, `${idTemplate}-${ship.name}`));
 
     const rndButton = document.createElement("button");
+    rndButton.classList.add("button", "button__random");
     rndButton.textContent = "Random Placement";
     rndButtonHandler(rndButton, () => {
       player.getOwnBoard().deployFleet(fleet, "random");

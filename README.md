@@ -10,6 +10,4 @@ A vanila javascript implementation of the board game "Battleship", as instructed
 
 ### Not Implemented Yet!
 
-Responsive Page.
-
 Complete coverage testing.

@@ -9,13 +9,14 @@ const ButtonContainer = (
 
   //   Initialize buttons
   const btnPlay = document.createElement("button");
-  btnPlay.className = "button__play";
+  btnPlay.className = "button button__play";
   const btnCheat = document.createElement("button");
-  btnCheat.className = "button__cheat";
+  btnCheat.className = "button button__cheat";
   const btnHover = document.createElement("button");
-  btnHover.className = "button__hover";
-
-  buttonContainer.append(btnPlay, btnCheat, btnHover);
+  btnHover.className = "button button__hover";
+  btnCheat.classList.add("hidden");
+  btnHover.classList.add("hidden");
+  buttonContainer.append(btnCheat, btnHover, btnPlay);
 
   btnPlay.textContent = "Start deployment";
   const playHandler = () => {

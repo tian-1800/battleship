@@ -1,5 +1,4 @@
 import Ship from "../js_modules/Ship";
-// import Gameboard from "../js_modules/Gameboard";
 
 const GameBoardComponent = (player, changeTurn, getHover) => {
   const opponent = player.getOpponent();
@@ -55,7 +54,6 @@ const GameBoardComponent = (player, changeTurn, getHover) => {
         container.removeChild(dragged);
         if (container.getElementsByTagName("button").length > 0)
           container.removeChild(container.getElementsByTagName("button")[0]);
-        console.log(container.childNodes.length);
         if (container.childNodes.length === 0) {
           document.getElementsByClassName("button__play")[0].disabled = false;
         }
