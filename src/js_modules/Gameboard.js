@@ -16,7 +16,7 @@ const Gameboard = (dimension) => {
   const checkCollision = (origin, orientation, shipLength) => {
     let isCoordinateValid = true;
     const [x, y] = origin;
-    // console.log("check collision");
+
     if (orientation === "vertical") {
       for (let i = x; i < x + shipLength; i += 1) {
         // check if another ship has occupied the square
@@ -79,20 +79,20 @@ const Gameboard = (dimension) => {
     } else {
       [x, y] = origin;
       orientation = inputOrientation;
-      // console.log(x, y, shipBoard[x]);
       if (!checkCollision([x, y], orientation, length))
         throw new Error("collision with already deployed ship");
       if (!checkBorder([x, y], orientation, dimension, length))
         throw new Error("Outside boundary");
     }
-    // console.log(x, y);
     if (orientation === "vertical") {
       for (let i = x; i < x + length; i += 1) {
         shipBoard[i][y] = { ship, position: i - x };
+        gridBoard[i][y].classList.add("ship-present");
       }
     } else if (orientation === "horizontal") {
       for (let i = y; i < y + length; i += 1) {
         shipBoard[x][i] = { ship, position: i - y };
+        gridBoard[x][i].classList.add("ship-present");
       }
     }
     fleet.push(ship);

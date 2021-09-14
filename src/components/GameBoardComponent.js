@@ -16,14 +16,13 @@ const GameBoardComponent = (player, changeTurn) => {
     ["click", "mouseenter"].forEach((event) =>
       element.addEventListener(event, () => {
         const winnerExist = gameBoard.isFleetSunk();
-        // console.log("hover", winnerExist);
         if (opponent.getTurn() && !winnerExist) {
           const valid = opponent.play(x, y);
           if (valid) changeTurn();
           if (gameBoard.shipBoard[x][y]) {
-            element.classList.remove("black");
-            element.classList.add("hit");
-          } else element.classList.add("empty-hit");
+            element.classList.remove("--visible");
+            element.classList.add("--hit");
+          } else element.classList.add("ship-present--false");
         }
       })
     );
@@ -35,7 +34,7 @@ const GameBoardComponent = (player, changeTurn) => {
       e.target.style.background = "";
 
       if (
-        e.target.classList.contains("drop-zone") &&
+        e.target.classList.contains("game-board__drop-zone") &&
         e.target.classList.contains(`${player.name}`)
       ) {
         const { id, index } = JSON.parse(e.dataTransfer.getData("text/plain"));
@@ -48,7 +47,7 @@ const GameBoardComponent = (player, changeTurn) => {
         const col = parseInt(e.target.dataset.id.substring(1, 2), 10) - index;
         gameBoard.deployShip(ship, [row, col], "horizontal");
         for (let i = col; i < ship.length + col; i += 1) {
-          gameBoard.gridBoard[row][i].classList.add("black");
+          gameBoard.gridBoard[row][i].classList.add("--visible");
         }
 
         const container = dragged.parentElement;
@@ -72,17 +71,18 @@ const GameBoardComponent = (player, changeTurn) => {
     while (board.firstChild) {
       board.removeChild(board.firstChild);
     }
+
     for (let i = 0; i < length; i += 1) {
       for (let j = 0; j < length; j += 1) {
         const gridElement = document.createElement("div");
         gridElement.dataset.id = `${i}${j}`;
-        gridElement.classList.add("drop-zone", `${player.name}`);
+        gridElement.classList.add("game-board__drop-zone", `${player.name}`);
 
+        const { gridBoard } = gameBoard;
+        gridBoard[i][j] = gridElement;
         specialClickHandler(gridElement, i, j);
         onDropHandler(gridElement);
         board.appendChild(gridElement);
-        const { gridBoard } = gameBoard;
-        gridBoard[i][j] = gridElement;
       }
     }
   };

@@ -1,6 +1,8 @@
 const domHelper = () => {
   const dragListenerInit = (board) => {
-    const shipSquares = [...board.getElementsByClassName("ship-square")];
+    const shipSquares = [
+      ...board.getElementsByClassName("dragged-ship__square"),
+    ];
     let grabShipIndex;
     shipSquares.forEach((shipSquare) => {
       shipSquare.addEventListener("mousedown", () => {
@@ -55,7 +57,6 @@ const domHelper = () => {
       callback();
       const playButton = document.getElementById("btn-play");
       playButton.disabled = false;
-      playButton.click();
     };
     element.addEventListener("click", handler);
   };
@@ -83,28 +84,28 @@ const PlacementBoard = (fleet, player) => {
       for (let i = 0; i < ship.length; i += 1) {
         const subShip = document.createElement("div");
         subShip.dataset.id = i;
-        subShip.className = "ship-square";
+        subShip.className = "dragged-ship__square";
         renderedShip.appendChild(subShip);
       }
       userBoard.appendChild(renderedShip);
     };
+
     const idTemplate = player.isHuman ? "human" : "computer";
     fleet.forEach((ship) => renderShip(ship, `${idTemplate}-${ship.name}`));
 
     const rndButton = document.createElement("button");
     rndButton.textContent = "Random Placement";
-    rndButtonHandler(rndButton, () =>
-      player.getOwnBoard().deployFleet(fleet, "random")
-    );
+    rndButtonHandler(rndButton, () => {
+      player.getOwnBoard().deployFleet(fleet, "random");
+      player.toggleShipsVisibility();
+    });
     userBoard.appendChild(rndButton);
     return userBoard;
   };
 
   const placementBoard = document.createElement("div");
   placementBoard.className = "preparation-board";
-
   placementBoard.appendChild(placementPreparation());
-
   dragListenerInit(placementBoard);
 
   return placementBoard;

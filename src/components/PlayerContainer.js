@@ -7,6 +7,10 @@ const PlayerContainer = (player, className, changeTurn) => {
   const container = document.createElement("div");
   container.className = className;
 
+  const header = document.createElement("h3");
+  header.textContent = player.name;
+  container.appendChild(header);
+
   // render game board
   const gameBoard = GameBoard(player, changeTurn);
   container.appendChild(gameBoard);

@@ -2,13 +2,7 @@ import "./css/style.css";
 
 import Player from "./js_modules/Player";
 import Gameboard from "./js_modules/Gameboard";
-// import Ship from "./js_modules/Ship";
-// import FleetTemplate from "./js_modules/FleetTemplate";
-// import { generateGrid10, boardAddClickDOM } from "./js_modules/dom_module";
 import PlayerContainer from "./components/PlayerContainer";
-// import PlayerDeployment, {
-//   removePlayerDeployment,
-// } from "./js_modules/PlayerDeployment";
 
 const gameHelper = () => {
   const checkWinner = (playerOne, playerTwo) => {
@@ -64,7 +58,6 @@ const gameLoop = (() => {
       document.getElementsByClassName("player-container");
     while (existingPlayerContainer.length > 0)
       mainFrame.removeChild(existingPlayerContainer[0]);
-    console.log(document.getElementsByClassName("player-container").length);
 
     const boardOne = Gameboard(BOARD_DIMENSION);
     const boardTwo = Gameboard(BOARD_DIMENSION);
@@ -94,7 +87,6 @@ const gameLoop = (() => {
   const play = () => {
     playerOne.setTurn(true);
     resetDisplayWinner();
-    // removePlayerDeployment();
   };
 
   const gameStart = () => {
@@ -102,7 +94,6 @@ const gameLoop = (() => {
     button.textContent = "Start deployment";
     button.addEventListener("click", () => {
       if (state.gameState === "deployment") {
-        console.log("playing");
         state.gameState = "playing";
         button.textContent = "Play Again";
         play();

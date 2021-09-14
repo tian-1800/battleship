@@ -1,14 +1,33 @@
 @import "config";
 
-header {
-  text-align: center;
-}
-
 body {
   background-color: $primary-color;
   color: $primary-text-color;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
+}
+
+header {
+  text-align: center;
+  background-color: #932;
+
+  h1 {
+    padding: 2rem 0;
+  }
+}
+
+main {
+  padding: 1rem 0;
+}
+
+ul {
+  h2 {
+    padding: 1rem 0;
+  }
+
+  li {
+    padding: 0.25rem 0;
+  }
 }
 
 .main-frame {
@@ -17,14 +36,13 @@ body {
   grid-template-columns: repeat(12, 8.3%);
   grid-template-rows: repeat(10, 10%);
   gap: 10px;
-  // text-align: center;
 
-  > .player.one {
+  > .player-container.one {
     grid-column: 2 / span 2;
     grid-row: 2 / span 5;
   }
 
-  > .player.two {
+  > .player-container.two {
     grid-column: 5 / span 2;
     grid-row: 2 / span 5;
   }
@@ -45,21 +63,29 @@ body {
   }
 }
 
-.game-board {
-  // display: grid;
-  // grid-template-columns: repeat(10, 20px);
-  // grid-template-rows: repeat(10, 20px);
-
-  > div {
-    border: solid 1px;
-    background-color: #ddd;
+.player-container {
+  h3 {
+    padding: 1rem 0;
   }
 }
 
-.preparation-board {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+.game-board {
+  &__drop-zone {
+    border: solid 1px;
+    background-color: #ddd;
+  }
+
+  > .ship-present {
+    &.--visible {
+      background-color: #000;
+    }
+    &.--hit {
+      background-color: $target-hit-color;
+    }
+    &--false {
+      background-color: $missed-hit-color;
+    }
+  }
 }
 
 .user-board {
@@ -72,23 +98,16 @@ body {
 .dragged-ship {
   display: flex;
   width: fit-content;
+  border: solid 1px #000;
+  border-radius: 3px;
+  margin: 2px 0;
 
-  > div {
+  &__square {
     width: 15px;
     height: 15px;
-    margin: 10px 2px;
+    margin: 2px 2px;
     background-color: #000;
   }
-}
-
-div.black {
-  background-color: #000;
-}
-div.hit {
-  background-color: $target-hit-color;
-}
-div.empty-hit {
-  background-color: $missed-hit-color;
 }
 
 .button-container {

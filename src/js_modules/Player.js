@@ -11,7 +11,6 @@ const Player = (isHumanArg, board) => {
     opponentBoard = arg.getOwnBoard();
   };
   const getOpponent = () => opponent;
-  // const opponentBoard = opponent.ownBoard;
 
   const getTurn = () => state.turn;
   const setTurn = (val) => {
@@ -20,6 +19,17 @@ const Player = (isHumanArg, board) => {
   const toggleTurn = () => {
     const newState = !state.turn;
     state.turn = newState;
+  };
+
+  const toggleShipsVisibility = () => {
+    const { gridBoard } = ownBoard;
+    for (let i = 0; i < gridBoard.length; i += 1) {
+      for (let j = 0; j < gridBoard.length; j += 1) {
+        if (gridBoard[i][j].classList.contains("ship-present")) {
+          gridBoard[i][j].classList.toggle("--visible");
+        }
+      }
+    }
   };
 
   const play = (x, y) => {
@@ -39,7 +49,6 @@ const Player = (isHumanArg, board) => {
       });
       eligibleSquaresCount = rowFiltered.length;
       const choice = Math.floor(Math.random() * eligibleSquaresCount);
-      // console.log(rowFiltered);
       const index = rowFiltered[choice];
       return { random, index };
     };
@@ -51,12 +60,8 @@ const Player = (isHumanArg, board) => {
       index = coordinate.index;
       random = coordinate.random;
       limit += 1;
-      // console.log("while was called, row: ", random, ", index: ", index);
     }
-    // console.log(random, index, Number.isInteger(index + 1));
-    // play(random, index);
     opponentBoard.gridBoard[random][index].click();
-    // index = 0;
   };
 
   return {
@@ -65,6 +70,7 @@ const Player = (isHumanArg, board) => {
     getOpponent,
     getTurn,
     setTurn,
+    toggleShipsVisibility,
     toggleTurn,
     isHuman,
     play,
