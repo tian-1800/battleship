@@ -1,7 +1,7 @@
 import Ship from "../js_modules/Ship";
 // import Gameboard from "../js_modules/Gameboard";
 
-const GameBoardComponent = (player, changeTurn) => {
+const GameBoardComponent = (player, changeTurn, getHover) => {
   const opponent = player.getOpponent();
   const gameBoard = player.getOwnBoard();
   const { length } = gameBoard.shootingBoard;
@@ -13,8 +13,9 @@ const GameBoardComponent = (player, changeTurn) => {
   board.style.gridTemplateRows = `repeat(${length}, 20px)`;
 
   const specialClickHandler = (element, x, y) => {
-    ["click", "mouseenter"].forEach((event) =>
+    ["click", "mouseenter"].forEach((event) => {
       element.addEventListener(event, () => {
+        if (event === "mouseenter" && !getHover()) return;
         const winnerExist = gameBoard.isFleetSunk();
         if (opponent.getTurn() && !winnerExist) {
           const valid = opponent.play(x, y);
@@ -24,8 +25,8 @@ const GameBoardComponent = (player, changeTurn) => {
             element.classList.add("--hit");
           } else element.classList.add("ship-present--false");
         }
-      })
-    );
+      });
+    });
   };
 
   const onDropHandler = (element) => {
@@ -52,12 +53,11 @@ const GameBoardComponent = (player, changeTurn) => {
 
         const container = dragged.parentElement;
         container.removeChild(dragged);
-        try {
+        if (container.getElementsByTagName("button").length > 0)
           container.removeChild(container.getElementsByTagName("button")[0]);
-        } finally {
-          if (container.childNodes.length === 0) {
-            document.getElementById("btn-play").disabled = false;
-          }
+        console.log(container.childNodes.length);
+        if (container.childNodes.length === 0) {
+          document.getElementsByClassName("button__play")[0].disabled = false;
         }
       }
     });

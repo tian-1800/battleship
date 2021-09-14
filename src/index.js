@@ -3,6 +3,7 @@ import "./css/style.css";
 import Player from "./js_modules/Player";
 import Gameboard from "./js_modules/Gameboard";
 import PlayerContainer from "./components/PlayerContainer";
+import ButtonContainer from "./components/ButtonContainer";
 
 const gameHelper = () => {
   const checkWinner = (playerOne, playerTwo) => {
@@ -12,15 +13,14 @@ const gameHelper = () => {
   };
 
   const displayWinner = (winner) => {
-    document.querySelector(".button-container").classList.remove("hidden");
-    document.getElementById("btn-play").textContent = "Play Again";
-    document.querySelector(
-      ".winner-announcement"
-    ).textContent = `${winner.name} Win`;
+    document.querySelector(".button__play").classList.remove("hidden");
+    const announcement = document.querySelector(".container__announcement");
+    announcement.textContent = `${winner.name} Win`;
+    announcement.classList.remove("hidden");
   };
 
   const resetDisplayWinner = () => {
-    document.querySelector(".button-container").classList.add("hidden");
+    document.querySelector(".container__announcement").classList.add("hidden");
   };
 
   const changeTurn = (playerOne, playerTwo) => {
@@ -45,11 +45,19 @@ const gameHelper = () => {
 const gameLoop = (() => {
   const BOARD_DIMENSION = 10;
 
-  const state = { gameState: "" };
+  const state = { isPlaying: "", hover: false };
+  const setState = (arg) => {
+    state.isPlaying = arg;
+  };
+  const getState = () => state.isPlaying;
+  const setHover = (arg) => {
+    state.hover = arg;
+  };
+  const getHover = () => state.hover;
   let playerOne;
   let playerTwo;
 
-  const [mainFrame] = document.getElementsByClassName("main-frame");
+  const [mainFrame] = document.getElementsByClassName("container");
   const { changeTurn, resetDisplayWinner } = gameHelper();
 
   const deploy = () => {
@@ -69,18 +77,21 @@ const gameLoop = (() => {
 
     const containerOne = PlayerContainer(
       playerOne,
-      "player-container one",
+      "container__player one",
       () => {
         changeTurn(playerOne, playerTwo);
-      }
+      },
+      getHover
     );
     const containerTwo = PlayerContainer(
       playerTwo,
-      "player-container two",
+      "container__player two",
       () => {
         changeTurn(playerOne, playerTwo);
-      }
+      },
+      getHover
     );
+    console.log("deploy");
     mainFrame.append(containerOne, containerTwo);
   };
 
@@ -90,21 +101,13 @@ const gameLoop = (() => {
   };
 
   const gameStart = () => {
-    const button = document.getElementById("btn-play");
-    button.textContent = "Start deployment";
-    button.addEventListener("click", () => {
-      if (state.gameState === "deployment") {
-        state.gameState = "playing";
-        button.textContent = "Play Again";
-        play();
-      } else {
-        state.gameState = "deployment";
-        button.textContent = "Start playing";
-        button.disabled = "true";
-        document.querySelector(".winner-announcement").textContent = "";
-        deploy();
-      }
-    });
+    const buttonContainer = ButtonContainer(
+      { getState, setState },
+      { getHover, setHover },
+      deploy,
+      play
+    );
+    mainFrame.appendChild(buttonContainer);
   };
 
   return { gameStart };

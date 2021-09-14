@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #f62;
+  background-color: #444;
   color: #eee;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
@@ -13,7 +13,7 @@ body {
 
 header {
   text-align: center;
-  background-color: #932;
+  background-color: #111;
 }
 header h1 {
   padding: 2rem 0;
@@ -30,35 +30,36 @@ ul li {
   padding: 0.25rem 0;
 }
 
-.main-frame {
+.container {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(12, 8.3%);
   grid-template-rows: repeat(10, 10%);
   gap: 10px;
 }
-.main-frame > .player-container.one {
+.container__announcement {
+  grid-column: 4/span 2;
+  grid-row: 1/span 1;
+}
+.container__player.one {
   grid-column: 2/span 2;
   grid-row: 2/span 5;
 }
-.main-frame > .player-container.two {
+.container__player.two {
   grid-column: 5/span 2;
   grid-row: 2/span 5;
 }
-.main-frame > .button-container {
+.container__button {
   grid-column: 2/span 5;
-  grid-row: 7/span 1;
+  grid-row: 9/span 1;
+  text-align: center;
 }
-.main-frame > .rules-container {
+.container__rules {
   grid-column: 9/span 3;
   grid-row: 2/span 8;
 }
-.main-frame > .preparation-board {
-  grid-column: 2/span 3;
-  grid-row: 9/span 2;
-}
 
-.player-container h3 {
+.container__player h3 {
   padding: 1rem 0;
 }
 
@@ -103,6 +104,6 @@ ul li {
   text-align: center;
 }
 
-.button-container.hidden {
+.hidden {
   display: none;
 }/*# sourceMappingURL=style.css.map */

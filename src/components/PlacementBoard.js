@@ -55,7 +55,7 @@ const domHelper = () => {
     const handler = () => {
       element.parentElement.parentElement.removeChild(element.parentElement);
       callback();
-      const playButton = document.getElementById("btn-play");
+      const [playButton] = document.getElementsByClassName("button__play");
       playButton.disabled = false;
     };
     element.addEventListener("click", handler);

@@ -9,7 +9,7 @@ body {
 
 header {
   text-align: center;
-  background-color: #932;
+  background-color: #111;
 
   h1 {
     padding: 2rem 0;
@@ -30,40 +30,40 @@ ul {
   }
 }
 
-.main-frame {
+.container {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(12, 8.3%);
   grid-template-rows: repeat(10, 10%);
   gap: 10px;
 
-  > .player-container.one {
+  &__announcement {
+    grid-column: 4 / span 2;
+    grid-row: 1 / span 1;
+  }
+  &__player.one {
     grid-column: 2 / span 2;
     grid-row: 2 / span 5;
   }
 
-  > .player-container.two {
+  &__player.two {
     grid-column: 5 / span 2;
     grid-row: 2 / span 5;
   }
 
-  > .button-container {
+  &__button {
     grid-column: 2 / span 5;
-    grid-row: 7 / span 1;
+    grid-row: 9 / span 1;
+    text-align: center;
   }
 
-  > .rules-container {
+  &__rules {
     grid-column: 9 / span 3;
     grid-row: 2 / span 8;
   }
-
-  > .preparation-board {
-    grid-column: 2 / span 3;
-    grid-row: 9 / span 2;
-  }
 }
 
-.player-container {
+.container__player {
   h3 {
     padding: 1rem 0;
   }
@@ -114,6 +114,6 @@ ul {
   text-align: center;
 }
 
-.button-container.hidden {
+.hidden {
   display: none;
 }
